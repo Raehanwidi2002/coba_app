@@ -1,58 +1,67 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
 void main(){
   runApp(Latihan());
 }
 
-class Latihan extends StatelessWidget{
+class Latihan extends StatefulWidget {
+  const Latihan({ Key? key }) : super(key: key);
 
-  var faker = new Faker();
+  @override
+  State<Latihan> createState() => _LatihanState();
+}
 
+class _LatihanState extends State<Latihan> {
+  var angka = 1;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Extract Widget"),),
-
-        body: ListView.builder(
-          itemBuilder: (context, index) {
-            return ChatItem(
-              imageUrl: "https://picsum.photos/id/$index/200/300",
-              Title: faker.person.name(),
-              subtitle: faker.lorem.sentence(),  
-            );
-          },
-          
+          title: Text("StateFull Widget"),
         ),
+
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              angka.toString(),
+              style: TextStyle(
+                fontSize: 20 + double.parse(angka.toString())
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    if(angka != 1){
+                    angka--;
+                  }
+                  });
+                  
+                  print(angka);
+                  
+                },
+                
+                child: Icon(Icons.remove)
+                ),
+                 ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    angka++;
+                  });
+                  
+                  print(angka);
+                },
+                child: Icon(Icons.add)
+                )
+            ],)
+          ],
         ),
-      );
-    
-  }
-}
-
-class ChatItem extends StatelessWidget {
-
-  final imageUrl;
-  final Title;
-  final subtitle;
-
-  const ChatItem({
-    this.imageUrl, this.subtitle, this.Title
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(imageUrl),
       ),
-      title: Text(Title),
-      subtitle: Text(subtitle),
-      trailing: Text("10:00 PM"),
     );
   }
 }
