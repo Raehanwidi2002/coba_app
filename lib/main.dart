@@ -1,34 +1,58 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main(){
   runApp(Latihan());
 }
 
-class Latihan extends StatelessWidget {
-  Latihan({Key? key}) : super(key: key);
+class Latihan extends StatelessWidget{
 
-  List<Color> myColor = [
-    Colors.red,
-    Colors.amber,
-    Colors.green,
-    Colors.red,
-    Colors.amber,
-    Colors.green
-  ];
-  List<Widget> myList = List.generate(100, (index) => Text("${index +1}", style: TextStyle(fontSize: 20 + double.parse(index.toString())),));
+  var faker = new Faker();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(
-            title: Text("Latihan"),
-          ),
-          body: ListView(
-            children: myList,
-            
-          )),
+        appBar: AppBar(
+          title: Text("Extract Widget"),),
+
+        body: ListView.builder(
+          itemBuilder: (context, index) {
+            return ChatItem(
+              imageUrl: "https://picsum.photos/id/$index/200/300",
+              Title: faker.person.name(),
+              subtitle: faker.lorem.sentence(),  
+            );
+          },
+          
+        ),
+        ),
+      );
+    
+  }
+}
+
+class ChatItem extends StatelessWidget {
+
+  final imageUrl;
+  final Title;
+  final subtitle;
+
+  const ChatItem({
+    this.imageUrl, this.subtitle, this.Title
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(imageUrl),
+      ),
+      title: Text(Title),
+      subtitle: Text(subtitle),
+      trailing: Text("10:00 PM"),
     );
   }
 }
