@@ -4,64 +4,92 @@ void main(){
   runApp(Latihan());
 }
 
-class Latihan extends StatefulWidget {
-  const Latihan({ Key? key }) : super(key: key);
+class Latihan extends StatelessWidget {
+   Latihan({ Key? key }) : super(key: key);
 
-  @override
-  State<Latihan> createState() => _LatihanState();
-}
+  List<Map<String,dynamic>> myList = [
+    {
+      "Nama" : "Raehan",
+      "Umur" : 20,
+      "favColor" : ["Merah", "Jingga" ]
+    },
+    {
+      "Nama" : "Widi",
+      "Umur" : 20,
+      "favColor" : ["Merah", "Jingga" ,  "Biru", "Hijau"]
+    },
+    {
+      "Nama" : "Sugiarto",
+      "Umur" : 20,
+      "favColor" : ["Merah", "Jingga" , "Hijau", "Biru", "Jingga" , "Hijau", "Biru"]
+    },
+    {
+      "Nama" : "Raehan",
+      "Umur" : 20,
+      "favColor" : [ "Jingga" , "Hijau", "Biru","Merah", "Hijau", "Biru","Merah"]
+    }
+  ];
 
-class _LatihanState extends State<Latihan> {
-  var angka = 1;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("StateFull Widget"),
+          title: Text("Mapping List"),
         ),
+        body: ListView(
+         children: myList.map((data){
+         List myfav = data["favColor"];
+            return Card(
+              color: Color.fromARGB(255, 154, 53, 255),
+              margin: EdgeInsets.all(15),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundImage: NetworkImage("https://picsum.photos/id/5/522/222"),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Nama  :  ${data["Nama"]}"),
+                              Text("Umur  :  ${data["Umur"]}")
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
 
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              angka.toString(),
-              style: TextStyle(
-                fontSize: 20 + double.parse(angka.toString())
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    if(angka != 1){
-                    angka--;
-                  }
-                  });
-                  
-                  print(angka);
-                  
-                },
-                
-                child: Icon(Icons.remove)
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: myfav.map((color){
+                          return Container(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(10),
+                            color: Colors.blue,
+                            child: Text(color),
+                          );
+                        }).toList() ,
+                      ),
+                    )
+                  ],
                 ),
-                 ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    angka++;
-                  });
-                  
-                  print(angka);
-                },
-                child: Icon(Icons.add)
-                )
-            ],)
-          ],
+              ),
+            );
+         }).toList()
         ),
-      ),
+      )
     );
   }
 }
